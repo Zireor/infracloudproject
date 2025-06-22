@@ -1,0 +1,45 @@
+- name: Installer Grafana sur Debian
+  hosts: all
+  remote_user: admin
+  become: true
+
+  tasks:
+    - name: Installer les paquets prérequis
+      apt:
+        name:
+          - gnupg2
+          - curl
+          - apt-transport-https
+          - software-properties-common
+          - wget
+        state: present
+        update_cache: true
+
+    - name: Créer le dossier parent pour les keyrings
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+
+    - name: Télécharger et ajouter la clé GPG de Grafana
+      shell: wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | tee /etc/apt/keyrings/grafana.gpg > /dev/null
+
+    - name: Ajouter le dépôt Grafana à la liste des sources APT
+      shell: echo 'deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main' | tee -a /etc/apt/sources.list.d/grafana.list
+
+    - name: Mettre à jour le cache APT pour prendre en compte le nouveau dépôt
+      apt:
+        update_cache: true
+
+    - name: Installer Grafana
+      apt:
+        name: grafana
+        state: present
+
+    - name: Activer et démarrer le service Grafana
+      command : systemctl enable --now grafana-server
+
+    - name: Redémarrer le service Grafana pour charger le plugin
+      command: systemctl restart grafana-server
+      ignore_errors: true # Pour ne pas échouer si le redémarrage est rapide
+    
