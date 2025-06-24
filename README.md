@@ -8,9 +8,9 @@ Dossier infra :
 
 Un dossier ressources pour les copy de fichier de configuration en cas où.
 
-Dans les dossier on n'inclut que les fichiers de code donc .tf et les .yml
+Dans les dossier de services on n'inclut que les fichiers de code donc .tf et les .yml
 
-Dans chaque dossier il doit avoir au minimun un main.tf et un fichier configuration yml (voir grafana)
+Dans chaque dossier de services il doit avoir au minimun un main.tf et un fichier configuration yml (voir grafana)
 
 Cela nous permet de déployer toute l'infra d'un coup mais on peut tester juste notre machine s'il le faut
 
