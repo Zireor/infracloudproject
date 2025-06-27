@@ -4,6 +4,10 @@
   become: true
 
   tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
     - name: Installer les paquets prérequis
       apt:
         name:

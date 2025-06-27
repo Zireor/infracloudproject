@@ -1,0 +1,24 @@
+- name: Installer Grafana sur Debian
+  hosts: all
+  remote_user: admin
+  become: true
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Upgrade apt
+      apt:
+       upgrade: safe
+
+    - name: Installer les paquets prérequis 
+      apt:
+        name:
+          - apache2
+  
+    - name: Lancer apache2
+      command: systemctl start apache2
+
+    - name: activer apache2
+      commande: systemctl enable apache2
