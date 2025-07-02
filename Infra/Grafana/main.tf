@@ -89,9 +89,3 @@ resource "aws_instance" "server" {
     command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i '${self.public_ip},' --private-key '${local.private_key_path}' inst_pack.yml"
   }
 }
-
-# Sortie pour afficher l'IP publique de l'instance
-output "public_ip" {
-  description = "IP publique de l'instance EC2"
-  value       = aws_instance.server.public_ip
-  }

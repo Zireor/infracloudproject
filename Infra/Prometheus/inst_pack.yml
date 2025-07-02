@@ -1,0 +1,4 @@
+- name: Installer Prometheus sur Debian
+  hosts: all
+  remote_user: admin
+  become: true

@@ -20,6 +20,14 @@ locals {
   private_key_path =""
 }
 
+#Importation IP Prometheus
+data "terraform_remote_state" "prometheus" {
+  backend = "local"
+  config = {
+    path = "infracloudproject/Infra/Prometheus/terraform.tfstate"
+  }
+}
+
 # Crée un groupe de sécurité pour autoriser le trafic SSH et HTTP
 resource "aws_security_group" "instance" {
   name_prefix = "terraform-sg-web"
@@ -39,6 +47,22 @@ resource "aws_security_group" "instance" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # À sécuriser en production
     description = "Autorise le trafic HTTP"
+  }
+
+  ingress {
+    from_port   = 9100
+    to_port     = 9100
+    protocol    = "tcp"
+    cidr_blocks = [data.terraform_remote_state.prometheus.outputs.public_ip + "/32"]
+    description = "Autoriser Node Exporter depuis Prometheus"
+  }
+
+  ingress {
+    from_port   = 9117
+    to_port     = 9117
+    protocol    = "tcp"
+    cidr_blocks = [data.terraform_remote_state.prometheus.outputs.public_ip + "/32"]
+    description = "Autoriser Apache Exporter depuis Prometheus"
   }
 
   egress {
@@ -81,9 +105,3 @@ resource "aws_instance" "server" {
     command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i '${self.public_ip},' --private-key '${local.private_key_path}' inst_pack.yml"
   }
 }
-
-# Sortie pour afficher l'IP publique de l'instance
-output "public_ip" {
-  description = "IP publique de l'instance EC2"
-  value       = aws_instance.server.public_ip
-  }
