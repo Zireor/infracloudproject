@@ -10,7 +10,7 @@
 
     - name: Upgrade apt
       apt:
-       upgrade: safe
+        upgrade: safe
 
     - name: Installer les paquets prérequis 
       apt:
@@ -21,4 +21,10 @@
       command: systemctl start apache2
 
     - name: activer apache2
-      commande: systemctl enable apache2
+      command: systemctl enable apache2
+
+    - name: Installation agent
+      apt:
+        name:
+          - prometheus-node-exporter
+          - prometheus-apache-exporter
