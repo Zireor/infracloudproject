@@ -1,24 +1,31 @@
 # infracloudproject
 
-Structure du projet 
+## Fonctionnement du projet 
+
+Le projet ne fonctionne que sur AWS
 
 Dossier infra :
-- 1 fichier princiaple qui lance les modules qui sont nos services grace main.tf
-- 3 dossier (Grafana, prometheus, serveur web)
+- 1 fichier princiaple main.tf
+- 3 dossier de services (Grafana, prometheus, serveur web)
 
-Un dossier ressources pour les copy de fichier de configuration en cas où.
+La stack fonctionne sur du Debian. Elle permet de lancer 3 serveur Prometheus ,Grafana , Web
 
-Dans les dossier de services on n'inclut que les fichiers de code donc .tf et les .yml
+## Modification à faire
+Les fichiers main.tf de chaque dossier sont à modifier pour :
+- VPC
+- Subnet
+- AMI
+- clé ssh
+- nom clé
 
-Dans chaque dossier de services il doit avoir au minimun un main.tf et un fichier configuration yml (voir grafana)
+Fichier auto_dsc
+- access_key
+-secret_key
 
-Cela nous permet de déployer toute l'infra d'un coup mais on peut tester juste notre machine s'il le faut
-
-aucune info confidentiel doit être dans le github.
-
-Git commit à chaque ajout pour comprendre les modification de configuration
-
-À faire : 
-- Prometheus
-- Grafonnet
-- Serveur web
+## À faire 
+<pre>
+cd /infra
+terraform init
+terraform plan
+terraform apply
+</pre>
