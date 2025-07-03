@@ -2,3 +2,23 @@
   hosts: all
   remote_user: admin
   become: true
+
+  tasks:
+    - name: Mettre à jour le cache APT
+      apt:
+        update_cache: yes
+
+    - name: Installer les paquets prérequis
+      apt:
+        name:
+          - prometheus
+        state: present
+        update_cache: true
+
+    - name: auto discovery aws
+      copy:
+        src: infracloudproject\ressources\auto_dsc
+        dest: /etc/prometheus/prometheus.yml
+
+    - name: reload prometheus
+      command: systemctl reload prometheus
