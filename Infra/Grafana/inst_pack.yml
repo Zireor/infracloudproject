@@ -52,10 +52,13 @@
         prometheus_ip: "{{ lookup('file', 'infracloudproject/Infra/Prometheus/prometheus_ip.txt') }}"
 
     - name: Configurer datasource Grafana
-      grafana_datasource:
-        name: Prometheus
-        type: prometheus
-        access: proxy
-        url: "http://{{ prometheus_ip }}:9090"
-        is_default: true
-    
+      template:
+        src: ../../ressources/prometheus.yaml.j2
+        dest: /etc/grafana/provisioning/datasources/prometheus.yaml
+        owner: root
+        group: grafana
+        mode: '0644'
+
+    - name: Redémarrer le service Grafana pour charger le plugin
+      command: systemctl restart grafana-server
+      ignore_errors: true # Pour ne pas échouer si le redémarrage est rapide

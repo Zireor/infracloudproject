@@ -24,7 +24,7 @@ locals {
 data "terraform_remote_state" "prometheus" {
   backend = "local"
   config = {
-    path = "infracloudproject/Infra/Prometheus/terraform.tfstate"
+    path = "../Prometheus/terraform.tfstate"
   }
 }
 
@@ -53,7 +53,7 @@ resource "aws_security_group" "instance" {
     from_port   = 9100
     to_port     = 9100
     protocol    = "tcp"
-    cidr_blocks = [data.terraform_remote_state.prometheus.outputs.public_ip + "/32"]
+    cidr_blocks = ["172.31.0.0/16"]
     description = "Autoriser Node Exporter depuis Prometheus"
   }
 
@@ -61,7 +61,7 @@ resource "aws_security_group" "instance" {
     from_port   = 9117
     to_port     = 9117
     protocol    = "tcp"
-    cidr_blocks = [data.terraform_remote_state.prometheus.outputs.public_ip + "/32"]
+    cidr_blocks = ["172.31.0.0/16"]
     description = "Autoriser Apache Exporter depuis Prometheus"
   }
 
@@ -84,7 +84,6 @@ resource "aws_instance" "server" {
   subnet_id     = "subnet" # Remplacez par l'ID de votre subnet
   vpc_security_group_ids = [aws_security_group.instance.id]
   key_name = local.key_name 
-  iam_instance_profile = "CommonSSMRole"
 
   tags = {
     Name = "terraform-web"

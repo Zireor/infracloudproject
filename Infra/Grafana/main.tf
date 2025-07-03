@@ -68,7 +68,6 @@ resource "aws_instance" "server" {
   subnet_id     = "subnet" # Remplacez par l'ID de votre subnet
   vpc_security_group_ids = [aws_security_group.instance.id]
   key_name = local.key_name 
-  iam_instance_profile = "CommonSSMRole"
 
   tags = {
     Name = "terraform-grafana"
