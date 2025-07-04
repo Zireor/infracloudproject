@@ -23,6 +23,7 @@ Avant de commencer, assurez-vous d'avoir :
 - Terraform installé sur votre machine.
 - Ansible installé sur votre machine
 - Avoir une IAM pour la Discovery EC2
+- Une clé ssh pour EC2
 
 ## Modification à faire
 Les fichiers main.tf de chaque dossier sont à modifier pour :
@@ -39,12 +40,12 @@ Fichier auto_dsc dans le dossier ressources
 ## Comment exécuter le projet selon votre branche
 Si vous prenez la branch main
 <pre>
-cd /infra/Grafana
+cd /infra/Prometheus
 terraform init
 terraform plan
 terraform apply
 
-cd /infra/Prometheus
+cd /infra/Grafana
 terraform init
 terraform plan
 terraform apply
