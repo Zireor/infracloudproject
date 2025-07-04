@@ -36,7 +36,7 @@ Fichier auto_dsc dans le dossier ressources
 - access_key
 - secret_key
 
-## Comment exécuter le procher selon votre branche
+## Comment exécuter le projet selon votre branche
 Si vous prenez la branch main
 <pre>
 cd /infra/Grafana
