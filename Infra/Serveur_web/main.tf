@@ -20,14 +20,6 @@ locals {
   private_key_path =""
 }
 
-#Importation IP Prometheus
-data "terraform_remote_state" "prometheus" {
-  backend = "local"
-  config = {
-    path = "../Prometheus/terraform.tfstate"
-  }
-}
-
 # Crée un groupe de sécurité pour autoriser le trafic SSH et HTTP
 resource "aws_security_group" "instance" {
   name_prefix = "terraform-sg-web"
