@@ -18,5 +18,5 @@ module "web" {
 
 module "grafana" {
   source = "./Grafana"
-  depends_on = [ module.prometheus ]
+  depends_on = [ module.web ]
 }

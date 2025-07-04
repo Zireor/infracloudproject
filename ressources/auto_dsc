@@ -46,8 +46,8 @@ scrape_configs:
   - job_name: 'ec2-node'
     ec2_sd_configs:
       - region: eu-west-3
-        access_key: YOUR_ACCESS_KEY
-        secret_key: YOUR_SECRET_KEY
+        access_key: 
+        secret_key: 
         port: 9100
     relabel_configs:
       - source_labels: [__meta_ec2_private_ip]
@@ -56,8 +56,8 @@ scrape_configs:
   - job_name: 'ec2-apache'
     ec2_sd_configs:
       - region: eu-west-3
-        access_key: YOUR_ACCESS_KEY
-        secret_key: YOUR_SECRET_KEY
+        access_key: 
+        secret_key: 
         port: 9117
     relabel_configs:
       - source_labels: [__meta_ec2_private_ip]

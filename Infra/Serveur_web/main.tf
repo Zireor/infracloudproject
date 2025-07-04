@@ -9,29 +9,16 @@ terraform {
   required_version = ">= 1.1.0"
 }
 
-# Configure le provider AWS
-provider "aws" {
-  region = "eu-west-3" 
-}
-
 locals {
   ssh_user = "admin"
-  key_name = "test-ry"
-  private_key_path =""
-}
-
-#Importation IP Prometheus
-data "terraform_remote_state" "prometheus" {
-  backend = "local"
-  config = {
-    path = "../Prometheus/terraform.tfstate"
-  }
+  key_name = "key-name"
+  private_key_path ="path"
 }
 
 # Crée un groupe de sécurité pour autoriser le trafic SSH et HTTP
 resource "aws_security_group" "instance" {
   name_prefix = "terraform-sg-web"
-  vpc_id      = "vpcid" # Remplacez par l'ID de votre VPC
+  vpc_id      = "vpc-" # Remplacez par l'ID de votre VPC
 
   ingress {
     from_port   = 22
@@ -81,7 +68,7 @@ resource "aws_security_group" "instance" {
 resource "aws_instance" "server" {
   ami           = "ami-0644165ab979df02d"
   instance_type = "t2.micro" # Type d'instance (peut être modifié)
-  subnet_id     = "subnet" # Remplacez par l'ID de votre subnet
+  subnet_id     = "subnet-" # Remplacez par l'ID de votre subnet
   vpc_security_group_ids = [aws_security_group.instance.id]
   key_name = local.key_name 
 
@@ -101,6 +88,6 @@ resource "aws_instance" "server" {
   }
 
   provisioner "local-exec" {
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i '${self.public_ip},' --private-key '${local.private_key_path}' inst_pack.yml"
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i '${self.public_ip},' --private-key '${local.private_key_path}' ${path.module}/inst_pack.yml"
   }
 }

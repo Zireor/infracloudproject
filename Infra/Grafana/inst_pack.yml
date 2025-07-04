@@ -49,7 +49,7 @@
 
     - name: Lire IP Prometheus
       set_fact:
-        prometheus_ip: "{{ lookup('file', 'infracloudproject/Infra/Prometheus/prometheus_ip.txt') }}"
+        prometheus_ip: "{{ lookup('file', '../Prometheus/prometheus_ip.txt') }}"
 
     - name: Configurer datasource Grafana
       template:
